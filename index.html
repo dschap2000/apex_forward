@@ -422,7 +422,7 @@
     <div id="biblio-widget">
         <button id="biblio-toggle" onclick="toggleBiblio()">📚</button>
         <div id="biblio-content">
-            <h3>Cumulative Sources</h3>
+            <h3>References</h3>
             <ul class="biblio-list" id="biblio-list">
                 </ul>
         </div>
@@ -844,20 +844,25 @@
         function updateBibliography(currentYear) {
             const list = document.getElementById('biblio-list');
             list.innerHTML = '';
-            let addedCount = 0;
             
-            masterBibliography.forEach(source => {
-                if (currentYear >= source.year) {
-                    const li = document.createElement('li');
-                    li.innerHTML = source.text;
-                    list.appendChild(li);
-                    addedCount++;
-                }
-            });
+            // Filter out sources that haven't been introduced yet
+            let activeSources = masterBibliography.filter(source => currentYear >= source.year);
             
-            if (addedCount === 0) {
+            // If no sources are active, display a placeholder message
+            if (activeSources.length === 0) {
                 list.innerHTML = '<li style="color: #9ca3af; font-style: italic;">No sources introduced yet. Advance the timeline to discover literature.</li>';
+                return;
             }
+
+            // Alphabetize the active sources by their text
+            activeSources.sort((a, b) => a.text.localeCompare(b.text));
+            
+            // Append sorted sources to the widget
+            activeSources.forEach(source => {
+                const li = document.createElement('li');
+                li.innerHTML = source.text;
+                list.appendChild(li);
+            });
         }
 
         // *** Swooping Modal Logic ***
