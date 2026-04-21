@@ -242,8 +242,8 @@
         .concept-box {
             position: absolute;
             width: 420px; 
-            max-height: 60vh; /* Limits height to 60% of viewport */
-            overflow-y: auto; /* Enables scrolling if content overflows */
+            max-height: 60vh; 
+            overflow-y: auto; 
             background: white;
             border: 3px solid;
             box-shadow: 0 10px 30px rgba(0,0,0,0.3);
@@ -331,6 +331,83 @@
             text-align: left;
             line-height: 1.4;
         }
+
+        /* *** Bibliography Widget *** */
+        #biblio-widget {
+            position: fixed;
+            right: -350px; 
+            top: 15%;
+            width: 320px;
+            max-height: 70vh;
+            background-color: rgba(255, 255, 255, 0.98);
+            border: 2px solid #3b82f6;
+            border-right: none;
+            border-radius: 12px 0 0 12px;
+            box-shadow: -5px 5px 20px rgba(0,0,0,0.15);
+            transition: right 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+            z-index: 800;
+            display: flex;
+            flex-direction: column;
+        }
+        #biblio-widget.open {
+            right: 0;
+        }
+        #biblio-toggle {
+            position: absolute;
+            left: -48px;
+            top: 20px;
+            width: 48px;
+            height: 48px;
+            background-color: #3b82f6;
+            color: white;
+            border: none;
+            border-radius: 12px 0 0 12px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5em;
+            box-shadow: -3px 0px 10px rgba(0,0,0,0.1);
+            transition: background-color 0.2s;
+        }
+        #biblio-toggle:hover {
+            background-color: #2563eb;
+        }
+        #biblio-content {
+            padding: 20px;
+            overflow-y: auto;
+        }
+        #biblio-content h3 {
+            margin-top: 0;
+            color: #1f2937;
+            font-size: 1.3em;
+            border-bottom: 2px solid #e5e7eb;
+            padding-bottom: 10px;
+            margin-bottom: 15px;
+        }
+        .biblio-list {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+            font-size: 0.85em;
+            line-height: 1.5;
+            color: #4b5563;
+        }
+        .biblio-list li {
+            margin-bottom: 15px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #f3f4f6;
+        }
+        .biblio-list li:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+        /* Custom Scrollbar for Biblio */
+        #biblio-content::-webkit-scrollbar { width: 6px; }
+        #biblio-content::-webkit-scrollbar-track { background: #f9fafb; border-radius: 4px; }
+        #biblio-content::-webkit-scrollbar-thumb { background: #d1d5db; border-radius: 4px; }
+        #biblio-content::-webkit-scrollbar-thumb:hover { background: #9ca3af; }
     </style>
 </head>
 <body>
@@ -340,6 +417,15 @@
         <p>Madison, Wisconsin.<br><br><strong>Forward Community Pantry</strong> and <strong>Apex Metro Relief</strong> are both dedicated to providing food for low-income residents. Roughly one-third of all of their beneficiaries are undocumented. Amidst hostile immigration crackdowns, their mission is urgent: serve as many undocumented and fearful families as possible to ensure no one goes hungry in the shadows.</p>
         <p>But how they achieve this goal will define their legacy.</p>
         <button class="start-btn" onclick="dismissIntro()">Enter Simulation (➡️)</button>
+    </div>
+
+    <div id="biblio-widget">
+        <button id="biblio-toggle" onclick="toggleBiblio()">📚</button>
+        <div id="biblio-content">
+            <h3>Cumulative Sources</h3>
+            <ul class="biblio-list" id="biblio-list">
+                </ul>
+        </div>
     </div>
 
     <div id="breach-overlay-1" class="overlay breach-sequence">
@@ -494,6 +580,18 @@
             "Year 13: Forward secures a $60 million federal grant, allowing it to scale its operations by 150 percent!"
         ];
 
+        // *** Master Bibliography Array ***
+        const masterBibliography = [
+            { year: 2, text: "Willner, Lauren, and Sara M. Heller. 2024. \"The Impact of Managerialism on Nonprofit Organizations Serving People Experiencing Houselessness in the United States.\" <em>Social Sciences</em> 13 (9): 436." },
+            { year: 2, text: "Porter, Theodore M. <em>Trust in Numbers: The Pursuit of Objectivity in Science and Public Life</em>. NED-New edition. Princeton University Press, 2020." },
+            { year: 2, text: "Beer, David. 2016. <em>Metric Power</em>. London: Palgrave Macmillan." },
+            { year: 2, text: "Wang, Jigan, Qing Jia, Tianfeng Dong, Xiaochan Yang, and Haodong Jiang. 2025. \"Ethical Dilemmas in Performance-Oriented Management: A Dual-Path Systems Model.\" <em>Systems</em> 13 (10): 900." },
+            { year: 2, text: "Ebrahim, Alnoor, and V. Kasturi Rangan. 2014. \"What Impact? A Framework for Measuring the Scale and Scope of Social Performance.\" <em>California Management Review</em> 56 (1): 118-141." },
+            { year: 3, text: "Treem, Jeffrey W., William C. Barley, Matthew S. Weber, and Joshua B. Barbour. 2023. \"Signaling and Meaning in Organizational Analytics: Coping with Goodhart's Law in an Era of Digitization and Datafication.\" <em>Journal of Computer-Mediated Communication</em> 28 (4): 3." },
+            { year: 4, text: "Witmer, Hope, and Marcela Sarmiento Mellinger. 2016. \"Organizational Resilience: Nonprofit Organizations' Response to Change.\" <em>Work</em> 54: 255-265." },
+            { year: 8, text: "Miller-Stevens, Katrina, Zachariah Benevento-Zahner, Gabrielle L'Esperance, and Jennifer A. Taylor. 2022. \"Assessing Multidimensional Approaches to Measure Program Outcomes in Human Service Organizations.\" <em>Voluntas: International Journal of Voluntary and Nonprofit Organizations</em> 33: 1214." }
+        ];
+
         // *** Academic Concepts Dictionary (Bulleted Formatting) ***
         const academicConcepts = {
             2: {
@@ -517,7 +615,7 @@
                             "<li><strong>The Baseline of Measurement:</strong> While over-quantification is dangerous, Ebrahim and Rangan argue that <em>\"every organization should at least measure and report on its activities and outputs, as these results are largely within its control.\"</em><sup>1</sup></li>" +
                             "<li><strong>Alignment is Crucial:</strong> Ignoring basic, controllable logistical outputs inadvertently harms the very population the nonprofit exists to serve.</li>" +
                           "</ul>",
-                    citation: "[1] Ebrahim, Alnoor, and V. Kasturi Rangan. 2014. \"What Impact? A Framework for Measuring the Scale and Scope of Social Performance.\" <em>California Management Review</em> 56 (1): 118-141."
+                    citation: "[1] Ebrahim, Alnoor, and V. Kasturi Rangan. 2014. \"What Impact? A Framework for Measuring the Scale and Scope of Social Performance.\" <em>California Management Review</em> 56 (3): 118-141."
                 }
             },
             3: {
@@ -538,7 +636,7 @@
                     title: "Community Reciprocity & Invisible Work",
                     text: "<ul class='concept-text-list'>" +
                             "<li><strong>Diverting Resources:</strong> Forward's CEO Alex deliberately diverts resources away from the primary \"meals served\" metric to partner with a local legal clinic.</li>" +
-                            "<li><strong>The Invisibility of Care:</strong> In a managerialist system, this appears highly inefficient. As David Beer notes, <em>\"measurement draws attention to certain things... whilst pulling our gaze away from other aspects of the social and the personal.\"</em><sup>1</sup></li>" +
+                            "<li><strong>The Invisibility of Care:</strong> In a managerialist system, this appears highly inefficient. <em>\"Measurement draws attention to certain things... whilst pulling our gaze away from other aspects of the social and the personal.\"</em><sup>1</sup></li>" +
                             "<li><strong>Community Reciprocity:</strong> By focusing on unquantifiable legal wellbeing rather than raw volume, Forward engages in <em>\"community reciprocity.\"</em><sup>2</sup></li>" +
                             "<li><strong>Asset Diversification:</strong> Forward builds a multidimensional safety net, diversifying its assets, while Apex over-leverages a single, fragile metric.</li>" +
                           "</ul>",
@@ -718,6 +816,7 @@
 
         document.getElementById('narrative').innerText = narratives[0];
         updateButtons();
+        updateBibliography(0); // Initialize Bibliography
 
         function updateButtons() {
             const val = parseInt(slider.value);
@@ -733,6 +832,31 @@
                 const li = document.createElement('li');
                 li.innerHTML = `<strong>Year ${i}:</strong> ${narratives[i].substring(narratives[i].indexOf(':') + 2)}`;
                 list.appendChild(li);
+            }
+        }
+        
+        // *** Bibliography Logic ***
+        function toggleBiblio() {
+            const widget = document.getElementById('biblio-widget');
+            widget.classList.toggle('open');
+        }
+
+        function updateBibliography(currentYear) {
+            const list = document.getElementById('biblio-list');
+            list.innerHTML = '';
+            let addedCount = 0;
+            
+            masterBibliography.forEach(source => {
+                if (currentYear >= source.year) {
+                    const li = document.createElement('li');
+                    li.innerHTML = source.text;
+                    list.appendChild(li);
+                    addedCount++;
+                }
+            });
+            
+            if (addedCount === 0) {
+                list.innerHTML = '<li style="color: #9ca3af; font-style: italic;">No sources introduced yet. Advance the timeline to discover literature.</li>';
             }
         }
 
@@ -794,6 +918,8 @@
             impactChart.data.datasets[0].data = unethicalData.slice(0, index + 1);
             impactChart.data.datasets[1].data = ethicalData.slice(0, index + 1);
             impactChart.update();
+            
+            updateBibliography(index);
         }
 
         // *** Cinematic Controllers ---
