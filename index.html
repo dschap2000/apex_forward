@@ -220,7 +220,7 @@
             border-bottom: none;
         }
 
-        /* --- DYNAMIC CONCEPT ANCHOR SYSTEM --- */
+        /* *** DYNAMIC CONCEPT ANCHOR SYSTEM *** */
         #chart-container {
             position: relative;
             width: 100%;
@@ -294,7 +294,7 @@
         @keyframes shootUp { to { height: 40px; } }
         @keyframes shootDown { to { height: 40px; } }
         @keyframes popOut { to { transform: scale(1); opacity: 1; } }
-        /* ------------------------------------------ */
+        /* ****************************************** */
         
         .event-card {
             padding: 15px;
@@ -455,7 +455,7 @@
     </div>
 
     <script>
-        // --- Web Speech API ---
+        // *** Web Speech API ***
         function playOperatorMessage() {
             if ('speechSynthesis' in window) {
                 const msg = new SpeechSynthesisUtterance("We're sorry. The number you have dialed has been disconnected or is no longer in service. Goodbye.");
@@ -472,7 +472,7 @@
         }
         window.speechSynthesis.getVoices();
 
-        // --- Data Arrays ---
+        // *** Data Arrays ***
         const labels = ['Year 0', 'Year 1', 'Year 2', 'Year 3', 'Year 4', 'Year 5', 'Year 6', 'Year 7', 'Year 8', 'Year 9', 'Year 10', 'Year 11', 'Year 12', 'Year 13'];
         const unethicalData = [0, 20000, 70000, 150000, 250000, 360000, 480000, 530000, 535000, 538000, 540000, 541000, 541000, null];
         const ethicalData = [0, 15000, 25000, 60000, 95000, 140000, 200000, 210000, 220000, 350000, 550000, 860000, 1100000, 2750000];
@@ -494,7 +494,7 @@
             "Year 13: Forward secures a $60 million federal grant, allowing it to scale its operations by 150 percent!"
         ];
 
-        // --- Academic Concepts Dictionary (Bulleted Formatting) ---
+        // *** Academic Concepts Dictionary (Bulleted Formatting) ***
         const academicConcepts = {
             2: {
                 0: { // Apex Dataset
@@ -510,14 +510,14 @@
                 },
                 1: { // Forward Dataset
                     theme: 'theme-blue',
-                    title: "Accountability Myopia",
+                    title: "Operational Blindness",
                     text: "<ul class='concept-text-list'>" +
                             "<li><strong>Operational Blindness:</strong> Forward's extreme resistance to Apex's corporate managerialism leads them to reject formal metrics almost entirely.</li>" +
-                            "<li><strong>The Cost of Inaction:</strong> Forward has failed to track inventory burn rate against culturally specific dietary needs, resulting in a severe food shortage. Forward ended up turning away 15% of vulnerable families.</li>" +
-                            "<li><strong>Accountability Myopia:</strong> While over-quantification risks dubious signaling, rejecting data entirely produces <em>\"accountability myopia.\"</em><sup>1</sup></li>" +
-                            "<li><strong>Alignment is Crucial:</strong> Nonprofits must align measurement systems with operational realities. Ignoring basic logistical data inadvertently harms the very population being served.</li>" +
+                            "<li><strong>The Cost of Inaction:</strong> Forward failed to track inventory burn rate against culturally specific dietary needs, resulting in a severe food shortage. They ended up turning away 15% of vulnerable families.</li>" +
+                            "<li><strong>The Baseline of Measurement:</strong> While over-quantification is dangerous, Ebrahim and Rangan argue that <em>\"every organization should at least measure and report on its activities and outputs, as these results are largely within its control.\"</em><sup>1</sup></li>" +
+                            "<li><strong>Alignment is Crucial:</strong> Ignoring basic, controllable logistical outputs inadvertently harms the very population the nonprofit exists to serve.</li>" +
                           "</ul>",
-                    citation: "[1] Ebrahim, Alnoor, and V. Kasturi Rangan. 2014. \"What Impact? A Framework for Measuring the Scale and Scope of Social Performance.\" <em>California Management Review</em> 56 (1): 118-141."
+                    citation: "[1] Ebrahim, Alnoor, and V. Kasturi Rangan. 2014. \"What Impact? A Framework for Measuring the Scale and Scope of Social Performance.\" <em>California Management Review</em> 56 (3): 118-141."
                 }
             },
             3: {
@@ -594,10 +594,22 @@
                           "</ul>",
                     citation: "[1] Witmer, Hope, and Marcela Sarmiento Mellinger. 2016. \"Organizational Resilience: Nonprofit Organizations' Response to Change.\" <em>Work</em> 54: 255-265. https://doi.org/10.3233/WOR-162303."
                 }
+            },
+            10: {
+                1: { // Forward Dataset
+                    theme: 'theme-blue',
+                    title: "Outputs vs. Outcomes",
+                    text: "<ul class='concept-text-list'>" +
+                            "<li><strong>Beyond the Quota:</strong> Apex focused entirely on easily quantifiable outputs (meals served), which ultimately failed to secure actual community impact.</li>" +
+                            "<li><strong>The Complexity of Outcomes:</strong> True social performance goes further. As Ebrahim and Rangan explain, <em>\"Outcome measurement... requires answers to a more complex causal question: Are the activities and outputs leading to sustained improvements in the lives of affected people?\"</em><sup>1</sup></li>" +
+                            "<li><strong>Sustained Improvement:</strong> By Year 10, Forward's 'crossover' demonstrates that their holistic interventions (pairing food delivery with legal aid and deep trust) successfully convert raw outputs into lasting social outcomes.</li>" +
+                          "</ul>",
+                    citation: "[1] Ebrahim, Alnoor, and V. Kasturi Rangan. 2014. \"What Impact? A Framework for Measuring the Scale and Scope of Social Performance.\" <em>California Management Review</em> 56 (3): 123."
+                }
             }
         };
 
-        // --- Custom Plugin for Warning & Coffin Icons ---
+        // *** Custom Plugin for Warning & Coffin Icons ***
         const annotationsPlugin = {
             id: 'annotations',
             afterDatasetsDraw(chart) {
@@ -622,7 +634,7 @@
             }
         };
 
-        // --- Chart Setup ---
+        // *** Chart Setup ***
         const ctx = document.getElementById('impactChart').getContext('2d');
         const impactChart = new Chart(ctx, {
             type: 'line',
@@ -682,7 +694,7 @@
             plugins: [annotationsPlugin]
         });
 
-        // --- Control State & UI Variables ---
+        // *** Control State & UI Variables ***
         const slider = document.getElementById('yearSlider');
         const prevBtn = document.getElementById('prevBtn');
         const nextBtn = document.getElementById('nextBtn');
@@ -702,7 +714,7 @@
         let hasSeenDeath = false;
         
         // Track academic popups
-        let seenConcepts = { 2: false, 3: false, 4: false, 5: false, 6: false, 8: false, 9: false };
+        let seenConcepts = { 2: false, 3: false, 4: false, 5: false, 6: false, 8: false, 9: false, 10: false };
 
         document.getElementById('narrative').innerText = narratives[0];
         updateButtons();
@@ -724,7 +736,7 @@
             }
         }
 
-        // --- Swooping Modal Logic ---
+        // *** Swooping Modal Logic ***
         function triggerSwoop(text, yearIndex) {
             const floater = document.getElementById('floating-narrative');
             const target = document.getElementById('narrative');
@@ -765,7 +777,7 @@
             };
         }
 
-        // --- Core Update Function ---
+        // *** Core Update Function ***
         function updateChartAndUI(index) {
             yearLabel.innerText = index;
 
@@ -784,7 +796,7 @@
             impactChart.update();
         }
 
-        // --- Cinematic Controllers ---
+        // *** Cinematic Controllers ---
         function dismissIntro() {
             document.getElementById('intro-overlay').style.opacity = '0';
             setTimeout(() => { 
@@ -830,7 +842,7 @@
             }, 500);
         }
 
-        // --- Academic Concept Engine ---
+        // *** Academic Concept Engine ***
         function showAcademicConcept(yearIndex, datasetIndex, isRetrigger = false) {
             const conceptInfo = academicConcepts[yearIndex][datasetIndex];
             const meta = impactChart.getDatasetMeta(datasetIndex);
@@ -916,7 +928,7 @@
             }
         }
 
-        // --- Main Timeline Router ---
+        // *** Main Timeline Router ***
         function handleTimeChange(newVal) {
             if (isPaused) {
                 slider.value = parseInt(yearLabel.innerText); 
@@ -936,6 +948,7 @@
                 if (currentYearIndex < 7) hasSeenCrash = false;
                 if (currentYearIndex < 8) seenConcepts[8] = false;
                 if (currentYearIndex < 9) seenConcepts[9] = false;
+                if (currentYearIndex < 10) seenConcepts[10] = false;
                 if (currentYearIndex < 12) hasSeenDeath = false;
             }
 
@@ -985,7 +998,7 @@
                 return;
             }
 
-            // Dynamic Academic Concepts (Years 2, 3, 4, 5, 6, 8, 9)
+            // Dynamic Academic Concepts (Years 2, 3, 4, 5, 6, 8, 9, 10)
             // Notice Year 2 is NOT auto-triggered here, to protect the cinematic
             if (academicConcepts[currentYearIndex] && !seenConcepts[currentYearIndex] && currentYearIndex !== 2) {
                 seenConcepts[currentYearIndex] = true;
@@ -1006,7 +1019,7 @@
             triggerSwoop(narratives[currentYearIndex], currentYearIndex);
         }
 
-        // --- Event Listeners ---
+        // *** Event Listeners ***
         slider.addEventListener('input', (e) => handleTimeChange(e.target.value));
 
         prevBtn.addEventListener('click', () => {
@@ -1021,7 +1034,7 @@
             }
         });
 
-        // --- Global Keyboard Navigation ---
+        // *** Global Keyboard Navigation ***
         document.addEventListener('keydown', (e) => {
             if (e.key === 'ArrowRight') {
                 const intro = document.getElementById('intro-overlay');
