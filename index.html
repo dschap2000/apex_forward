@@ -408,6 +408,69 @@
         #biblio-content::-webkit-scrollbar-track { background: #f9fafb; border-radius: 4px; }
         #biblio-content::-webkit-scrollbar-thumb { background: #d1d5db; border-radius: 4px; }
         #biblio-content::-webkit-scrollbar-thumb:hover { background: #9ca3af; }
+
+        /* *** MOBILE OPTIMIZATION *** */
+        @media (max-width: 600px) {
+            body { padding: 10px; margin: 10px auto; }
+            h1 { font-size: 1.5em; margin-top: 10px; }
+            .overlay h2 { font-size: 1.8em; }
+            .overlay p { font-size: 1.1em; }
+            .robbie-graphic { font-size: 2.5em; }
+            
+            /* Convert Concept Box to Centered Modal for Mobile */
+            .concept-box {
+                position: fixed !important;
+                top: 50% !important;
+                left: 50% !important;
+                right: auto !important;
+                bottom: auto !important;
+                width: 90vw !important;
+                margin: 0 !important;
+                border-radius: 12px !important;
+                max-height: 80vh !important;
+                z-index: 1000 !important;
+                transform: translate(-50%, -50%) scale(0) !important;
+            }
+            
+            #concept-anchor.animate .concept-box {
+                animation: popOutMobile 0.5s 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards !important;
+            }
+            
+            .concept-line { display: none !important; }
+
+            /* Improve Control Layout for Touch */
+            .controls > div:nth-child(2) {
+                flex-wrap: wrap;
+            }
+            #yearSlider {
+                width: 100% !important;
+                order: -1; /* Puts slider on top of buttons */
+                margin-bottom: 20px !important;
+            }
+            .nav-btn {
+                flex: 1; /* Makes buttons expand evenly side-by-side */
+                padding: 12px;
+            }
+
+            /* Adjust Floating Narrative */
+            #floating-narrative {
+                width: 95%;
+                padding: 15px;
+            }
+
+            /* Bibliography Touch Adjustments */
+            #biblio-widget {
+                width: 85vw;
+                right: -90vw; /* Ensures it hides completely off-screen */
+            }
+            #biblio-widget.open {
+                right: 0;
+            }
+        }
+
+        @keyframes popOutMobile {
+            to { transform: translate(-50%, -50%) scale(1); opacity: 1; }
+        }
     </style>
 </head>
 <body>
